@@ -17,3 +17,6 @@ def pascal_triangle(n):
         triangle.append(current_row)
     
     return triangle
+
+result = pascal_triangle(5)
+print(result)
