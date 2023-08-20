@@ -16,7 +16,7 @@ def print_stats():
 try:
     for line in sys.stdin:
         values = line.split(" ")
-        if len(valuess) > 2:
+        if len(values) > 2:
             code = values[-2]
             size = int(values[-1])
             if code in codes:
