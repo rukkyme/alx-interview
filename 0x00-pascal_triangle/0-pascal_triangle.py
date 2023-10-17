@@ -2,21 +2,10 @@
 """The Pascal's Triangle interview"""
 
 def pascal_triangle(n):
-    if n <= 0:
-        return []
-    triangle = [[1]] 
-
-    for row in range (1, n):
-        prev_row = triangle[-1]
-        current_row = [1] 
-        
-        for i in range (1, row):
-            current_row.append(prev_row[i - 1] + prev_row[i])
-        
-        current_row.append(1) 
-        triangle.append(current_row)
-    
-    return triangle
-
-result = pascal_triangle(5)
-print(result)
+	pascal_t = []
+    for i in range(1, n + 1):
+        row = [1] * (i)
+        for j in range(2, i):
+            row[j - 1] = pascal_t[i - 2][j - 2] + pascal_t[i - 2][j - 1]
+        pascal_t.append(row)
+    return pascal_t
