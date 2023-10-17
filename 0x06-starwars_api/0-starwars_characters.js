@@ -4,31 +4,22 @@
  * The first positional argument passed is the Movie ID
  * Display one character name per line in the same order
  * as  list in the /films/ endpoint
- */
+ **/
 
-const util = require('util');
-const request = util.promisify(require('request'));
-const filmId = process.argv[2];
 
-async function starwarsCharacters(filmId) {
-  const endpoint = `https://swapi-api.hbtn.io/api/films/${filmId}`;
-  try {
-    const response = await request(endpoint);
-    const filmData = JSON.parse(response.body);
-    const characters = filmData.characters;
 
-    for (const characterUrl of characters) {
-      try {
-        const characterResponse = await request(characterUrl);
-        const characterData = JSON.parse(characterResponse.body);
-        console.log(characterData.name);
-      } catch (error) {
-        console.error('Error fetching character data:', error);
-      }
-    }
-  } catch (error) {
-    console.error('Error fetching film data:', error);
-  }
-}
+const request = require('request');
 
-starwarsCharacters(filmId);
+request('https://swapi-api.hbtn.io/api/films/' + process.argv[2], function (err, res, body) {
+  if (err) throw err;
+  const actors = JSON.parse(body).characters;
+  exactOrder(actors, 0);
+});
+const exactOrder = (actors, x) => {
+  if (x === actors.length) return;
+  request(actors[x], function (err, res, body) {
+    if (err) throw err;
+    console.log(JSON.parse(body).name);
+    exactOrder(actors, x + 1);
+  });
+};
